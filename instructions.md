@@ -27,11 +27,10 @@ On your computer, 我们先要安装几个软件：
 1. Download the source code for this workshop from [here](https://github.com/ARMmbed/workshop-mbed-connect-asia-lights) - and unpack in a convenient location. 下载今天我们要做的应用的源代码 并解压。 [here](https://github.com/ARMmbed/workshop-mbed-connect-asia-lights)
 
 If you are on Windows, also install, 如果你用的是windows, 安装：
-
-1. [ST Link](http://janjongboom.com/downloads/st-link.zip) - serial driver for the board.  ST Link： ST的串口驱动
-    * Run `dpinst_amd64` on 64-bits Windows, `dpinst_x86` on 32-bits Windows.
-    * Afterwards, unplug your board and plug it back in. 拔出再插入开发板
-    * (Not sure if it configured correctly? Look in 'Device Manager > Ports (COM & LPT)', should list as STLink Virtual COM Port. 在设备管理器里面，端口（COM & LPT）部分，你可以找到STLink Virtual COM Port。这就是你设备的端口。
+1. 安装Serial Port驱动软件，(https://developer.mbed.org/media/downloads/drivers/mbedWinSerial_16466.exe)
+   ＊Windows 10不需要安装此软件
+   ＊安装成功后会显示在装置管理员里的‘COM&LTP ports’](https://developer.mbed.org/handbook/Windows-serial-configuration)
+   
 1. [Tera term](https://osdn.net/projects/ttssh2/downloads/66361/teraterm-4.92.exe/) - to see debug messages from the board. 用来查看串口
 
 ## Setup 设置
@@ -40,6 +39,7 @@ If you are on Windows, also install, 如果你用的是windows, 安装：
 1. Attach the following components to the Grove shield， 把下列元件插到base shield上：
     * LED to Grove `D2` (to INPUT port on LED). 把LED插到D2接口
 1. Connect the FRDM-K64F board to your computer. 把开发版插入电脑的usb口
+   ＊Connect to the OpenSDA port. 把USB线连到OpenSDA接口。
 1. The board mounts as a mass-storage device (like a USB drive). Verify that you can see it (the drive name will be MBED). 电脑上会显示一个U盘设备叫MBED
 1. Double-click on `mbed.htm` - you'll be redirected to the [FRDM-K64F platform page](https://developer.mbed.org/platforms/FRDM-K64F/). U盘里面有一个文件叫mbed.htm，双击打开，你将会进入[FRDM-K64F platform page](https://developer.mbed.org/platforms/FRDM-K64F/)页面。
     * If prompted to sign in, sign in or create an account. 如果要登入，请注册一个账号并登入。
@@ -89,6 +89,7 @@ void pir_rise() {
 1. Now press Compile. 按“Compile”来进行编译
 1. A file downloads. 编译好的文件会自动开始下载
 1. Drag the file to the 'MBED' disk. 把下载好的文件拖到 MBED 的U盘里。
+1. Press the Reset Button on the board. 按下Reset按钮。
 1. The LED should turn red. 开发板上的LED灯会变红。
 1. Whenever movement is detected the LED turns green for 5 seconds. 有震动时，LED灯会变绿。
 
@@ -216,7 +217,7 @@ We can interact with these variables through the [API Console](https://connector
 1. Under 'endpoint' select your device. 在’endpoint’部分，选择你的板子。
 1. Under 'resource-path' select '/pir/0/count'. 在’resource-path'部分，选择 '/pir/0/count'.
 1. Click **TEST API**. 点击**TEST API**
-1. Move your hand in front of the PIR sensor. 在红外传感器的前面挥挥手
+1. Trigger the accelerometer. 移动一下加速度计。
 1. Click **TEST API** again。再次点击**TEST API**
 1. Verify that the number changed.  这时屏幕上的数字应该变了。
 
@@ -276,7 +277,7 @@ Now we can subscribe to movement... Under 'YOUR CODE HERE' add:
 ```
 
 1. Restart the program (from the terminal, press CTRL+C and start again). 重启程序：从命令行，按CTRL+C退出，然后重新运行之前的命令。
-1. Move your hand in front of the sensor. 把手在传感器前面挥一挥
+1. Trigger the accelerometer. 移动一下加速度计。
 1. Output should show in the terminal! 你将会在命令行里看到相应的输出。
 
 We can also control the device... Under 'YOUR CODE HERE' add:
