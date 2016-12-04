@@ -125,6 +125,7 @@ int main(int, char**) {
   // Set the DeviceType to light-system and connect to mbed Device Connector
   struct MbedClientOptions options = client.get_default_options();
   options.DeviceType = "light-system";
+  options.SocketMode = M2MInterface::TCP;
   if (!client.setup(options, network)) {
     printf("Setting up mbed_client failed...\r\n");
     return 1;
