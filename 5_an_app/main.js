@@ -79,7 +79,8 @@ var options = {
 // Start konekuta (connects to mbed Cloud, and retrieves initial device model)
 konekuta(options, (err, devices, ee, connector) => {
   if (err) {
-    throw err;
+    console.error('Error connecting to mbed Device Connector...', err);
+    return;
   }
 
   // Now we can start the web server
