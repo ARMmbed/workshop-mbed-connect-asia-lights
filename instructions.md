@@ -23,10 +23,8 @@ On your computer:
 
 If you are on Windows, also install:
 
-1. [ST Link](http://janjongboom.com/downloads/st-link.zip) - serial driver for the board.
-    * Run `dpinst_amd64` on 64-bits Windows, `dpinst_x86` on 32-bits Windows.
-    * Afterwards, unplug your board and plug it back in.
-    * (Not sure if it configured correctly? Look in 'Device Manager > Ports (COM & LPT)', should list as STLink Virtual COM Port.
+1. [mbed Windows Serial port driver](https://developer.mbed.org/media/downloads/drivers/mbedWinSerial_16466.exe) - serial driver for the board.
+    * (Not sure if it configured correctly? Look in 'Device Manager > Ports (COM & LPT)', should list the board here...
 1. [Tera term](https://osdn.net/projects/ttssh2/downloads/66361/teraterm-4.92.exe/) - to see debug messages from the board.
 
 ## Setup
@@ -35,7 +33,7 @@ If you are on Windows, also install:
 1. Attach the following components to the Grove shield:
     * LED to Grove `D6` (to INPUT port on LED).
     * Accelerometer to any Grove `I2C` port.
-1. Connect the K64F board to your computer.
+1. Connect the K64F board to your computer, use the USB port **left** from the Ethernet port (OpenSDA).
 1. Plug in an Ethernet cable to the K64F board.
 1. The board mounts as a mass-storage device (like a USB drive). Verify that you can see it (the drive name will be MBED).
 1. Double-click on `mbed.htm` - you'll be redirected to the [K64F platform page](https://developer.mbed.org/platforms/FRDM-K64F/).
