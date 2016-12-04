@@ -24,7 +24,7 @@ We need to install a few pieces of software that we'll be using.
 On your computer, 我们先要安装几个软件：
 
 1. Install a recent version of [node.js](https://nodejs.org) (4.x or higher). Node.js 版本4.0及以上
-1. Download the source code for this workshop from [here](https://github.com/ARMmbed/workshop-mbed-connect-connected-lighting) - and unpack in a convenient location. 下载今天我们要做的应用的源代码 并解压。 [here](https://github.com/ARMmbed/workshop-mbed-connect-connected-lighting)
+1. Download the source code for this workshop from [here](https://github.com/ARMmbed/workshop-mbed-connect-asia-lights) - and unpack in a convenient location. 下载今天我们要做的应用的源代码 并解压。 [here](https://github.com/ARMmbed/workshop-mbed-connect-asia-lights)
 
 If you are on Windows, also install, 如果你用的是windows, 安装：
 
@@ -38,14 +38,10 @@ If you are on Windows, also install, 如果你用的是windows, 安装：
 
 1. Attach the Grove base shield to your development board. 把Grove base shield插到开发版上。
 1. Attach the following components to the Grove shield， 把下列元件插到base shield上：
-    * WiFi module to Grove `D2`. wifi无线网络模块，插到D2
-    * Put a jumper wire from *Pin* `D3` to `D8`.
-    ![wiring](img/wiring-wifi.png) 把D3 和 D8 连接起来
-    * LED to Grove `D6` (to INPUT port on LED). 把LED插到D2接口
-    * Accelerometer to any Grove `I2C` port. 加速计插入任意一个I2C的接口
-1. Connect the NUCLEO F411RE board to your computer. 把开发版插入电脑的usb口
-1. The board mounts as a mass-storage device (like a USB drive). Verify that you can see it (the drive name will be NUCLEO). 电脑上会显示一个U盘设备叫NUCLEO
-1. Double-click on `mbed.htm` - you'll be redirected to the [F411RE platform page](https://developer.mbed.org/platforms/ST-Nucleo-F411RE/). U盘里面有一个文件叫mbed.htm，双击打开，你将会进入[F411RE platform page](https://developer.mbed.org/platforms/ST-Nucleo-F411RE/)页面。
+    * LED to Grove `D2` (to INPUT port on LED). 把LED插到D2接口
+1. Connect the FRDM-K64F board to your computer. 把开发版插入电脑的usb口
+1. The board mounts as a mass-storage device (like a USB drive). Verify that you can see it (the drive name will be MBED). 电脑上会显示一个U盘设备叫MBED
+1. Double-click on `mbed.htm` - you'll be redirected to the [FRDM-K64F platform page](https://developer.mbed.org/platforms/FRDM-K64F/). U盘里面有一个文件叫mbed.htm，双击打开，你将会进入[FRDM-K64F platform page](https://developer.mbed.org/platforms/FRDM-K64F/)页面。
     * If prompted to sign in, sign in or create an account. 如果要登入，请注册一个账号并登入。
 1. Click the **Add to your mbed Compiler** button. 点击**Add to your mbed Compiler**，在页面的右边， 可能需要向下滚动一下。
 1. Click the **Compiler** button. 点击页面右上的**Compiler**按钮
@@ -62,10 +58,10 @@ We'll run a program that will turn the LED on whenever motion is detected.
 
 1. Make sure that you have the online compiler open. 打开线上开发环境
 1. Click the Import button, then click **Click Here to import from URL**. 按“import” 按钮来载入源代码。
-1. Paste the following URL: https://github.com/ARMmbed/workshop-mbed-connect-connected-lighting 在弹出的对话框里粘贴这个地址： https://github.com/ARMmbed/workshop-mbed-connect-connected-lighting
+1. Paste the following URL: https://github.com/ARMmbed/workshop-mbed-connect-asia-lights 在弹出的对话框里粘贴这个地址： https://github.com/ARMmbed/workshop-mbed-connect-asia-lights
     * Do **NOT** tick the 'Update libraries' checkbox. 注意不要勾选 'Update libraries’ 的选项。
 1. Click the **Import** button. 按**Import**来载入。
-1. In the top right corner, verify that the right development board is selected (NUCLEO F411RE). 在右上角的开发版选择按钮中，选择NUCLEO F411RE。
+1. In the top right corner, verify that the right development board is selected (FRDM-K64F). 在右上角的开发版选择按钮中，选择FRDM-K64F。
 
 Next, we will select which program we will build. This step needs to be repeated every time we progress to the next example.
 下面，我们将选择程序来进行编译。下面的步骤我们会重复几次，以编译不同的模版程序。
@@ -92,7 +88,7 @@ void pir_rise() {
 
 1. Now press Compile. 按“Compile”来进行编译
 1. A file downloads. 编译好的文件会自动开始下载
-1. Drag the file to the 'NUCLEO' disk. 把下载好的文件拖到 NUCLEO 的U盘里。
+1. Drag the file to the 'MBED' disk. 把下载好的文件拖到 MBED 的U盘里。
 1. The LED should turn red. 开发板上的LED灯会变红。
 1. Whenever movement is detected the LED turns green for 5 seconds. 有震动时，LED灯会变绿。
 
@@ -245,9 +241,9 @@ We can also write some code to interact with this device.
 我们同时也可以通过代码与设备互动。
 
 1. Install a recent version of [node.js](https://nodejs.org) (4.x or higher). 安装一个较新版本的 [node.js](https://nodejs.org) 4.0以上。
-1. Download the source code for this workshop from [here](https://github.com/ARMmbed/workshop-mbed-connect-connected-lighting/archive/master.zip) - and unpack in a convenient location. 把本例的源代码下载下来，并解压。
+1. Download the source code for this workshop from [here](https://github.com/ARMmbed/workshop-mbed-connect-asia-lights/archive/master.zip) - and unpack in a convenient location. 把本例的源代码下载下来，并解压。
 1. Open a terminal or a command window. 打开一个终端或者命令行。
-1. Change directory to the folder where you download the `workshop-mbed-connect-connected-lighting` repository. 进入你下载解压的那个文件夹`workshop-mbed-connect-connected-lighting`。
+1. Change directory to the folder where you download the `workshop-mbed-connect-asia-lights` repository. 进入你下载解压的那个文件夹`workshop-mbed-connect-asia-lights`。
 1. Run `cd 4_from_code`. 在命令行执行`cd 4_from_code`
 1. Run `npm install`.执行`npm install`
 1. Open `main.js` in a text editor. 在编辑器里面打开`main.js`。
