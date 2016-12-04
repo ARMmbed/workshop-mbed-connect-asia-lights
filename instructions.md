@@ -38,6 +38,7 @@ If you are on Windows, also install, 如果你用的是windows, 安装：
 1. Attach the Grove base shield to your development board. 把Grove base shield插到开发版上。
 1. Attach the following components to the Grove shield， 把下列元件插到base shield上：
     * LED to Grove `D2` (to INPUT port on LED). 把LED插到D2接口
+    * Accelerometer to I2c. 把加速度计插到I2C接口
 1. Connect the FRDM-K64F board to your computer. 把开发版插入电脑的usb口
    ＊Connect to the OpenSDA port. 把USB线连到OpenSDA接口。
 1. The board mounts as a mass-storage device (like a USB drive). Verify that you can see it (the drive name will be MBED). 电脑上会显示一个U盘设备叫MBED
@@ -115,11 +116,11 @@ Now change the project and write some code，下面我们要修改这个程序�
 
 1. In the tree, locate 'select_project.h' and change the number in this file to `2`. 在左边的文件浏览器里，找到 ‘select_project.h’， 把这个文件里面的数字改成 2
 1. This program is a bit bigger than the previous one, it does the following: 这个程序比上一个更加复杂一些：
-    * Has a variable (`ledStatus`) to listen to PIR (`NONE`), be permanently on (`ON`) or permanently off (`OFF`).
+    * Has a variable (`ledStatus`) to listen to Accelerometer (`NONE`), be permanently on (`ON`) or permanently off (`OFF`).
     * 有一些变量 (`ledStatus`) 来监听红外线传感器的值：常亮(`ON`) 或者常灭(`OFF`).
     * Has a variable (`ledColor`) for the color. (`ledColor`) 来控制颜色
-    * Has a variable (`ledTimeout`) for the timeout after a PIR signal. (`ledTimeout`)来控制红外传感器的超时
-    * Plus a variable (`pirCount`) to count how often the PIR sensor was triggered. (`pirCount`)来记红外传感器被触发的次数。
+    * Has a variable (`ledTimeout`) for the timeout after a Accelerometer signal. (`ledTimeout`)来控加速度计的超时
+    * Plus a variable (`pirCount`) to count how often the Accelerometer sensor was triggered. (`pirCount`)来记加速度计被触发的次数。
 1. There is also code to connect to mbed Device Connector (see `main` function). 其他还有一些代码是用来连接到·mbed Device Connector· 的。详见 main 函数。
 1. You can run this program fine without an internet connection, but we can turn the variables into 'cloud variables' managed by Device Connector. 这个程序可以离线执行，但是如果你给板子连上网线，你的本地变量就会自动被复制到云端，变成云变量。
 
@@ -217,7 +218,7 @@ We can interact with these variables through the [API Console](https://connector
 1. Under 'endpoint' select your device. 在’endpoint’部分，选择你的板子。
 1. Under 'resource-path' select '/pir/0/count'. 在’resource-path'部分，选择 '/pir/0/count'.
 1. Click **TEST API**. 点击**TEST API**
-1. Trigger the accelerometer. 移动一下加速度计。
+1. Trigger the accelerometer. 触发加速度计。
 1. Click **TEST API** again。再次点击**TEST API**
 1. Verify that the number changed.  这时屏幕上的数字应该变了。
 
@@ -277,7 +278,7 @@ Now we can subscribe to movement... Under 'YOUR CODE HERE' add:
 ```
 
 1. Restart the program (from the terminal, press CTRL+C and start again). 重启程序：从命令行，按CTRL+C退出，然后重新运行之前的命令。
-1. Trigger the accelerometer. 移动一下加速度计。
+1. Trigger the accelerometer. 触发加速度计。
 1. Output should show in the terminal! 你将会在命令行里看到相应的输出。
 
 We can also control the device... Under 'YOUR CODE HERE' add:
