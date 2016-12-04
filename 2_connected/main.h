@@ -9,8 +9,8 @@
 SimpleMbedClient client;          // Get a reference to Client
 
 // Our peripherals
-Accelerometer accelerometer(10, true);
-ChainableLED rgbLed(D6, D7, 1);   // Declare the LED (it's chainable!)
+Accelerometer accelerometer;
+ChainableLED rgbLed(D2, D3, 1);   // Declare the LED (it's chainable!)
 
 // We need a way to signal from an interrupt context -> main thread, use a Semaphore for it...
 Semaphore updates(0);
@@ -134,6 +134,7 @@ int main(int, char**) {
   client.on_registered(&registered);
 
   // Main loop. We don't want to do Network operations from ISR
+  // see accelerometer.h for a nicer way of doing this...
   while (1) {
     int v = updates.wait(25000);
     if (v == 1) {

@@ -1,80 +1,54 @@
-#include "mbed.h"
-#include "MMA7660FC.h"
+#ifndef ACCEL_H
+#define ACCEL_H
 
-MMA7660FC acc(I2C_SDA, I2C_SCL, 0x98);
-static Thread accelThread;
+#include "fxos8700cq.h"           // Driver for the accelerometer
+#include "mbed_events.h"          // Event queue library
+
+FXOS8700CQ accel(PTE25, PTE24, FXOS8700CQ_SLAVE_ADDR1); // FRDM-K64F accelerometer
+InterruptIn accel_interrupt_pin(PTC13);  // Wait for an interrupt to happen...
+
+EventQueue queue(32 * EVENTS_EVENT_SIZE);
+rtos::Thread eventThread;
 
 class Accelerometer {
 public:
-  Accelerometer(int aThreshold = 10, bool aDebug = false)
-      : threshold(aThreshold), debug(aDebug) {
-  }
+    Accelerometer() : isFirstEvent(true) {}
 
-  void start() {
-    accelThread.start(this, &Accelerometer::main);
-  }
+    void start() {
+        eventThread.start(this, &Accelerometer::start_thread);
 
-  void change(void (*cb)(void)) {
-    callback = cb;
-  }
+        accel_interrupt_pin.fall(this, &Accelerometer::interrupt);
+        accel_interrupt_pin.mode(PullUp);
+
+        accel.config_int();      // enabled interrupts from accelerometer
+        accel.config_feature();  // turn on motion detection
+        accel.enable();          // enable accelerometer
+    }
+
+    void start_thread() {
+        while (1) {
+            queue.dispatch();
+        }
+    }
+
+    void interrupt() {
+        accel.clear_int();
+
+        if (isFirstEvent) {
+            isFirstEvent = false;
+        }
+        else {
+            queue.call(callback);
+        }
+    }
+
+    void change(void (*cb)(void)) {
+        callback = cb;
+    }
 
 private:
-  void main() {
-
-    wait_ms(3000); // let the sensor warm up...
-
-    int v = acc.check();
-    if (v != 0) {
-      printf("Loading accelerometer failed... %d\r\n", v);
-    }
-
-
-    acc.init();
-
-    int lastX = 0, lastY = 0, lastZ = 0;
-    bool firstEvent = true;
-
-    while (1) {
-      int x = acc.read_x(), y = acc.read_y(), z = acc.read_z();
-
-      int delta = abs(lastX + lastY + lastZ) - abs(x + y + z);
-      
-      if (delta > threshold) {
-        printf("delta is %d\r\n", delta);
-        printf("x=%d y=%d z=%d lx=%d ly=%d lz=%d\r\n", x, y, z, lastX, lastY, lastZ);
-      }
-
-      lastX = x;
-      lastY = y;
-      lastZ = z;
-
-      if (delta > threshold) {
-        if (firstEvent) {
-          firstEvent = false;
-          wait_ms(5);
-          continue;
-        }
-
-        if (debug) {
-          // printf("delta is %d\r\n", delta);
-          // printf("x=%d y=%d z=%d\r\n", lastX, lastY, lastZ);
-        }
-
-        if (callback) callback();
-
-        wait_ms(1000);
-
-        lastX = acc.read_x();
-        lastY = acc.read_y();
-        lastZ = acc.read_z();
-      }
-      else {
-        wait_ms(20);
-      }
-    }
-  }
-
-  bool debug;
-  int threshold;
-  void (*callback)(void);
+    void (*callback)(void);
+    bool isFirstEvent;
 };
+
+#endif
