@@ -19,7 +19,7 @@ We need to install a few pieces of software that we'll be using.
 On your computer:
 
 1. Install a recent version of [node.js](https://nodejs.org) (4.x or higher).
-1. Download the source code for this workshop from [here](https://github.com/ARMmbed/workshop-mbed-connect-connected-lighting) - and unpack in a convenient location.
+1. Download the source code for this workshop from [here](https://github.com/ARMmbed/workshop-mbed-connect-asia-lights) - and unpack in a convenient location.
 
 If you are on Windows, also install:
 
@@ -33,14 +33,12 @@ If you are on Windows, also install:
 
 1. Attach the Grove base shield to your development board.
 1. Attach the following components to the Grove shield:
-    * WiFi module to Grove `D2`.
-    * Put a jumper wire from *Pin* `D3` to `D8`.
-    ![wiring](img/wiring-wifi.png)
     * LED to Grove `D6` (to INPUT port on LED).
     * Accelerometer to any Grove `I2C` port.
-1. Connect the NUCLEO F411RE board to your computer.
-1. The board mounts as a mass-storage device (like a USB drive). Verify that you can see it (the drive name will be NUCLEO).
-1. Double-click on `mbed.htm` - you'll be redirected to the [F411RE platform page](https://developer.mbed.org/platforms/ST-Nucleo-F411RE/).
+1. Connect the K64F board to your computer.
+1. Plug in an Ethernet cable to the K64F board.
+1. The board mounts as a mass-storage device (like a USB drive). Verify that you can see it (the drive name will be MBED).
+1. Double-click on `mbed.htm` - you'll be redirected to the [K64F platform page](https://developer.mbed.org/platforms/FRDM-K64F/).
     * If prompted to sign in, sign in or create an account.
 1. Click the **Add to your mbed Compiler** button.
 1. Click the **Compiler** button.
@@ -54,10 +52,10 @@ We'll run a program that will turn the LED on whenever motion is detected.
 
 1. Make sure that you have the online compiler open.
 1. Click the Import button, then click **Click Here to import from URL**.
-1. Paste the following URL: https://github.com/ARMmbed/workshop-mbed-connect-connected-lighting
+1. Paste the following URL: https://github.com/ARMmbed/workshop-mbed-connect-asia-lights
     * Do **NOT** tick the 'Update libraries' checkbox.
 1. Click the **Import** button.
-1. In the top right corner, verify that the right development board is selected (NUCLEO F411RE).
+1. In the top right corner, verify that the right development board is selected (FRDM-K64F).
 
 Next, we will select which program we will build. This step needs to be repeated every time we progress to the next example.
 
@@ -83,7 +81,7 @@ void pir_rise() {
 
 1. Now press Compile.
 1. A file downloads.
-1. Drag the file to the 'NUCLEO' disk.
+1. Drag the file to the 'MBED' disk.
 1. The LED should turn red.
 1. Whenever movement is detected the LED turns green for 5 seconds.
 
@@ -218,9 +216,9 @@ We can also write new values to the device.
 We can also write some code to interact with this device.
 
 1. Install a recent version of [node.js](https://nodejs.org) (4.x or higher).
-1. Download the source code for this workshop from [here](https://github.com/ARMmbed/workshop-mbed-connect-connected-lighting/archive/master.zip) - and unpack in a convenient location.
+1. Download the source code for this workshop from [here](https://github.com/ARMmbed/workshop-mbed-connect-asia-lights/archive/master.zip) - and unpack in a convenient location.
 1. Open a terminal or a command window.
-1. Change directory to the folder where you download the `workshop-mbed-connect-connected-lighting` repository.
+1. Change directory to the folder where you download the `workshop-mbed-connect-asia-lights` repository.
 1. Run `cd 4_from_code`.
 1. Run `npm install`.
 1. Open `main.js` in a text editor.
