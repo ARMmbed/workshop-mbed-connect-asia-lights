@@ -48,6 +48,16 @@ If you are on Windows, also install, 如果你用的是windows, 安装：
 1. Click the **Compiler** button. 点击页面右上的**Compiler**按钮
 1. An IDE should open. Congratulations! 一个在线开发环境会打开。
 
+### If you do not have a Grove Base shield
+
+1. Take a Grove -> Male header.
+1. Connect the Grove header to `IN` port on the LED.
+1. Take a look at the [K64F pinout](https://developer.mbed.org/media/uploads/GregC/xfrdm-k64f_header-pinout.jpg.pagespeed.ic.GDev93u6zd.jpg) (use the outer lanes).
+1. Connect BLACK to GND.
+1. Connect RED to 3.3V.
+1. Connect YELLOW to D2.
+1. Connect WHITE to D3.
+
 **Local development:** If you like things locally, you can do so by using [mbed CLI](https://docs.mbed.com/docs/mbed-os-handbook/en/5.1/getting_started/blinky_cli/#installing-mbed-cli-and-a-toolchain). I very much recommend to just use the online IDE, as it makes it easier for us, but if you want to continue hacking in the future, this is a nice way.
 
 线下开发：如果你想试下离线开发的工具，请安装[mbed CLI](https://docs.mbed.com/docs/mbed-os-handbook/en/5.1/getting_started/blinky_cli/#installing-mbed-cli-and-a-toolchain)。线上线下的源代码都是一样的。
@@ -327,7 +337,8 @@ Web server listening on port 5265!
 ```
 
 1. Go to http://localhost:5265 and you can now interact with your devices. 打开浏览器，前往http://localhost:5265。现在你就可以和自己的板子互动了。
-    * Color picker does not work in Safari... Try Firefox or Chrome. 取色器在SAFARI里不能使用，请用火狐浏览器，或者Chrome浏览器。
+    * If the color picker does not show up, try Chrome.
+
 We can also show notifications whenever movement happens... Open `5_an_app/views/index.html` and add under 'YOUR CODE HERE':
 我们也能让connector每次传感器被触发的时候，给你发一条消息。打开`5_an_app/views/index.html`然后在 'YOUR CODE HERE’ 部分，把下面的的代码粘贴进去。
 
