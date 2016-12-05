@@ -1,49 +1,57 @@
-<script>
 
+(function() {
 /**
  * color-picker custom element
  */
 
-var colorPickerPrototype = Object.create(HTMLElement.prototype);
+var colorPicker = window.ColorPicker = function(width, height) {
+  this.attrWidth = width;
+  this.attrHeight = height;
 
-colorPickerPrototype.onMouseDown = function(e) {
+  this.el = document.createElement('div');
+  this.el.style.width = width + 'px';
+  this.el.style.height = height + 'px';
+};
+
+colorPicker.prototype.onMouseDown = function(e) {
     this.onMouseMove(e);
-    this.addEventListener('mousemove', this.onMouseMove);
+    this.onmousemove = this.onMouseMove.bind(this);
 }
 
-colorPickerPrototype.onMouseUp = function(e) {
-    this.removeEventListener('mousemove', this.onMouseMove);
+colorPicker.prototype.onMouseUp = function(e) {
+    this.el.onmousemove = null;
 }
 
-colorPickerPrototype.onTouchStart = function(e) {
+colorPicker.prototype.onTouchStart = function(e) {
     this.onTouchMove(e);
-    this.addEventListener('touchmove', this.onTouchMove);
+    this.ontouchmove = this.onTouchMove.bind(this);
 }
 
-colorPickerPrototype.onTouchEnd = function(e) {
-    this.removeEventListener('touchmove', this.onTouchMove);
+colorPicker.prototype.onTouchEnd = function(e) {
+    this.el.removeEventListener('touchmove', this.onTouchMove.bind(this));
+    this.ontouchmove = null;
 }
 
-colorPickerPrototype.onTouchMove = function(e) {
-    var touch = e.touches[0]; 
+colorPicker.prototype.onTouchMove = function(e) {
+    var touch = e.touches[0];
     this.onColorSelect(e, {
         x: touch.clientX,
         y: touch.clientY
     });
 }
 
-colorPickerPrototype.onMouseMove = function(e) {
+colorPicker.prototype.onMouseMove = function(e) {
     e.preventDefault();
-    if (this.mouseMoveIsThrottled) {                    
+    if (this.mouseMoveIsThrottled) {
         this.mouseMoveIsThrottled = false;
         this.onColorSelect(e);
         setTimeout(function() {
             this.mouseMoveIsThrottled = true;
         }.bind(this), 100);
     }
-}                        
+}
 
-colorPickerPrototype.onColorSelect = function(e, coords) {
+colorPicker.prototype.onColorSelect = function(e, coords) {
 
     if (this.context) {
 
@@ -51,14 +59,14 @@ colorPickerPrototype.onColorSelect = function(e, coords) {
         var data = this.context.getImageData(coords.x, coords.y, 1, 1).data;
 
         this.setColor({
-            r: data[0], 
-            g: data[1], 
+            r: data[0],
+            g: data[1],
             b: data[2]
         });
     }
 };
 
-colorPickerPrototype.pickerDraw = function() {
+colorPicker.prototype.pickerDraw = function() {
 
     this.canvas = document.createElement('canvas');
     this.canvas.setAttribute("width", this.width);
@@ -66,7 +74,7 @@ colorPickerPrototype.pickerDraw = function() {
     this.canvas.setAttribute("style", "cursor:crosshair");
     this.canvas.setAttribute("class", "simpleColorPicker");
 
-    this.context = this.canvas.getContext('2d');    
+    this.context = this.canvas.getContext('2d');
 
     var colorGradient = this.context.createLinearGradient(0, 0, this.width, 0);
     colorGradient.addColorStop(0, "rgb(255,0,0)");
@@ -86,11 +94,11 @@ colorPickerPrototype.pickerDraw = function() {
     bwGradient.addColorStop(1, "rgba(0,0,0,1)");
 
     this.context.fillStyle = bwGradient;
-    this.context.fillRect(0, 0, this.width, this.height); 
+    this.context.fillRect(0, 0, this.width, this.height);
 
 }
 
-colorPickerPrototype.setColor = function(rgb) {
+colorPicker.prototype.setColor = function(rgb) {
 
     //save calculated color
     this.color = {
@@ -99,7 +107,7 @@ colorPickerPrototype.setColor = function(rgb) {
     };
 
     //update element attribute
-    this.setAttribute('color', this.color.hex);
+    this.el.setAttribute('color', this.color.hex);
 
     //broadcast color selected event
     var event = new CustomEvent('colorselected', {
@@ -109,27 +117,27 @@ colorPickerPrototype.setColor = function(rgb) {
         }
     });
 
-    this.dispatchEvent(event);
+    this.el.dispatchEvent(event);
 }
 
 /**
  * given red, green, blue values, return the equivalent hexidecimal value
  * base source: http://stackoverflow.com/a/5624139
  */
-colorPickerPrototype.componentToHex = function(c) {
+colorPicker.prototype.componentToHex = function(c) {
     var hex = c.toString(16);
     return hex.length == 1 ? "0" + hex : hex;
 };
 
-colorPickerPrototype.rgbToHex = function(color) {
-    return "#" + colorPickerPrototype.componentToHex(color.r) + colorPickerPrototype.componentToHex(color.g) + colorPickerPrototype.componentToHex(color.b);
+colorPicker.prototype.rgbToHex = function(color) {
+    return "#" + this.componentToHex(color.r) + this.componentToHex(color.g) + this.componentToHex(color.b);
 };
 
 /**
  * given a mouse click event, return x,y coordinates relative to the clicked target
  * @returns object with x, y values
  */
-colorPickerPrototype.relativeMouseCoordinates = function(e) {
+colorPicker.prototype.relativeMouseCoordinates = function(e) {
 
     var x = 0, y = 0;
 
@@ -137,7 +145,7 @@ colorPickerPrototype.relativeMouseCoordinates = function(e) {
         var rect = this.canvas.getBoundingClientRect();
         x = e.clientX - rect.left;
         y = e.clientY - rect.top;
-    } 
+    }
 
     return {
         x: x,
@@ -145,12 +153,12 @@ colorPickerPrototype.relativeMouseCoordinates = function(e) {
     };
 };
 
-colorPickerPrototype.createdCallback = function(e) {
+colorPicker.prototype.createdCallback = function(e) {
 
     //parse attributes
     var attrs = {
-        width: this.getAttribute('width'),
-        height: this.getAttribute('height')
+        width: this.attrWidth,
+        height: this.attrHeight
     };
 
     //initialization
@@ -162,18 +170,15 @@ colorPickerPrototype.createdCallback = function(e) {
     this.height = attrs.height || 300;
 
     //create UI
-    this.shadowRoot = this.createShadowRoot();    
-    this.pickerDraw();    
-    this.shadowRoot.appendChild(this.canvas);
+    this.pickerDraw();
+    this.el.appendChild(this.canvas);
 
     ///event listeners
-    this.addEventListener('mousedown', this.onMouseDown);
-    this.addEventListener('mouseup', this.onMouseUp);
-    this.addEventListener('touchstart', this.onTouchStart);
-    this.addEventListener('touchend', this.onTouchEnd);
+    this.el.onmousedown = this.onMouseDown.bind(this);
+    this.el.onmouseup = this.onMouseUp.bind(this);
+    this.el.ontouchstart = this.onTouchStart.bind(this);
+    this.el.ontouchend = this.onTouchEnd.bind(this);
 
-}
+};
 
-document.registerElement('color-picker', { prototype: colorPickerPrototype });
-
-</script>
+})();
